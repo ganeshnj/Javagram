@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="372.0" prefWidth="620.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="controller.PreviewController">
+  <!-- TODO Add Nodes -->
+  <children>
+    <BorderPane fx:id="borderPanePreview" prefHeight="372.0" prefWidth="620.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <bottom>
+        <ScrollPane fx:id="scrollPanePreviews" fitToHeight="true" fitToWidth="false" prefHeight="151.0" prefWidth="620.0">
+          <content>
+            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+          </content>
+        </ScrollPane>
+      </bottom>
+      <center>
+        <Label text="Previews" />
+      </center>
+    </BorderPane>
+  </children>
+</AnchorPane>
