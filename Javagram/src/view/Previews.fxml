@@ -10,7 +10,7 @@
   <children>
     <BorderPane fx:id="borderPanePreview" prefHeight="372.0" prefWidth="620.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <bottom>
-        <ScrollPane fx:id="scrollPanePreviews" fitToHeight="true" fitToWidth="false" prefHeight="151.0" prefWidth="620.0">
+        <ScrollPane fx:id="scrollPanePreviews" vbarPolicy="NEVER" fitToHeight="true" fitToWidth="true" prefHeight="151.0" prefWidth="620.0">
           <content>
             <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
           </content>

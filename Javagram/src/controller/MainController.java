@@ -55,9 +55,11 @@ public class MainController {
 	 @FXML
 	 void showPreviewAction(ActionEvent event) {
 		 System.out.println("Show previews clicked");
-		 FXMLLoader loader = new FXMLLoader();
+		 FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Previews.fxml"));
 			try {
-				Parent root = loader.load(getClass().getResource("/view/Previews.fxml"));
+				Parent root = loader.load();
+				PreviewController controller = loader.getController();
+				controller.setStage(stage);
 				rootBorderPane.setCenter(root);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -72,6 +74,8 @@ public class MainController {
 		FXMLLoader loader = new FXMLLoader();
 		try {
 			Parent root = loader.load(getClass().getResource("/view/Thumbnail.fxml"));
+			PreviewController controller = loader.getController();
+			controller.setStage(stage);
 			rootBorderPane.setCenter(root);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
