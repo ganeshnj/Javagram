@@ -64,25 +64,32 @@ public class CropController {
 		// show bounds info
 		System.out.println("Selected area: " + selectionBounds);
 
-		BufferedImage tempImage;
+		
+		BufferedImage tempImage = null;
 		if (selectionBounds.getWidth() == 1 && selectionBounds.getHeight() == 1) {
 			// No selection performed
 			System.out.println("Original");
-			tempImage = sourceImage;
+			
+			File file = new File("temp.jpg");
+			  try {
+	              ImageIO.write(sourceImage, "jpg", file);
+	          } catch (IOException ex) {
+	              System.out.println(ex.getMessage());
+	          }
 		} else {
 			// Selected performed
 			tempImage = crop(selectionBounds);
 			System.out.println("Cropped");
 		}
-		
+
 		Stage previewStage = getStage();
+		previewStage.setWidth(previewStage.getWidth()-1);
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Previews.fxml"));
 		PreviewsController controller = new PreviewsController();
 		controller.setSourceImage(tempImage);
-		controller.setStage(getStage());
-		previewStage.setResizable(false);
+		controller.setStage(previewStage);
 		loader.setController(controller);
-		
+
 		try {
 			Parent root = (Parent) loader.load();
 			Scene scene = new Scene(root);
@@ -96,24 +103,26 @@ public class CropController {
 
 	@FXML
 	void initialize() {
-		
+
 		try {
 			// throws exception if file not found
 			sourceImage = ImageIO.read(sourceFile);
-			
+
 			imageView = new ImageView(new Image(sourceFile.toURI().toString()));
-			imageView.setFitWidth(getStage().getWidth());
-			imageView.setPreserveRatio(true);
 			imageLayer.getChildren().add(getImageView());
 
-			borderPaneCrop.setCenter(imageLayer);
+			ScrollPane scrollPane = new ScrollPane();
+			// use scrollpane for image view in case the image is large
+			scrollPane.setContent(imageLayer);
+
+			// put scrollpane in scene
+			borderPaneCrop.setCenter(scrollPane);
 
 			rubberBandSelection = new RubberBandSelection(imageLayer);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 
 	}
 
@@ -151,41 +160,47 @@ public class CropController {
 
 	private BufferedImage crop(Bounds bounds) {
 
-		int width = (int) bounds.getWidth();
-		int height = (int) bounds.getHeight();
+		  int width = (int) bounds.getWidth();
+	        int height = (int) bounds.getHeight();
 
-		System.out.println(width + " " + height);
+	        SnapshotParameters parameters = new SnapshotParameters();
+	        parameters.setFill(Color.TRANSPARENT);
+	        parameters.setViewport(new Rectangle2D( bounds.getMinX(), bounds.getMinY(), width, height));
 
-		SnapshotParameters parameters = new SnapshotParameters();
-		parameters.setFill(Color.TRANSPARENT);
-		parameters.setViewport(new Rectangle2D(bounds.getMinX(), bounds.getMinY(), width, height));
+	        WritableImage wi = new WritableImage( width, height);
+	        imageView.snapshot(parameters, wi);
 
-		WritableImage wi = new WritableImage(width, height);
-		imageView.snapshot(parameters, wi);
+	        // save image 
+	        // !!! has bug because of transparency (use approach below) !!!
+	        // --------------------------------
+//	        try {
+//	          ImageIO.write(SwingFXUtils.fromFXImage( wi, null), "jpg", file);
+//	      } catch (IOException e) {
+//	          e.printStackTrace();
+//	      }
 
-		// save image
-		// !!! has bug because of transparency (use approach below) !!!
-		// --------------------------------
-		// try {
-		// ImageIO.write(SwingFXUtils.fromFXImage( wi, null), "jpg", file);
-		// } catch (IOException e) {
-		// e.printStackTrace();
-		// }
 
-		// save image (without alpha)
-		// --------------------------------
-		BufferedImage bufImageARGB = SwingFXUtils.fromFXImage(wi, null);
-		BufferedImage bufImageRGB = new BufferedImage(bufImageARGB.getWidth(), bufImageARGB.getHeight(),
-				BufferedImage.OPAQUE);
+	        // save image (without alpha)
+	        // --------------------------------
+	        BufferedImage bufImageARGB = SwingFXUtils.fromFXImage(wi, null);
+	        BufferedImage bufImageRGB = new BufferedImage(bufImageARGB.getWidth(), bufImageARGB.getHeight(), BufferedImage.OPAQUE);
 
-	
+	        Graphics2D graphics = bufImageRGB.createGraphics();
+	        graphics.drawImage(bufImageARGB, 0, 0, null);
 
-		 Graphics2D graphics = bufImageRGB.createGraphics();
-		 graphics.drawImage(bufImageARGB, 0, 0, null);
-		
-		 graphics.dispose();
-		 
-		 return bufImageRGB;
+	        try {
+	        	File file = new File("cropped");
+	            ImageIO.write(bufImageRGB, "jpg", file); 
+
+	            System.out.println( "Image saved to " + file.getAbsolutePath());
+
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+
+	        graphics.dispose();
+	        
+	        return bufImageRGB;
 
 	}
 

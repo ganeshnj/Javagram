@@ -69,7 +69,7 @@ public class ExplorerController {
 
 	@FXML
 	void initialize() {
-		File selectedDirectory = new File("C:/Users/ganes/Pictures/Screenshots");
+		File selectedDirectory = new File("C:/Users/Ganesh-XPS13/Pictures/Screenshots");
 
 		File[] listOfFiles = selectedDirectory.listFiles(new FileFilter() {
 			@Override
@@ -202,19 +202,20 @@ public class ExplorerController {
 							
 							
 							Stage cropStage = getStage();
+							cropStage.setWidth(cropStage.getWidth()+1);
+							//cropStage.setHeight(768);
 							FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Crop.fxml"));
 							CropController controller = new CropController();
 							controller.setSourceFile(imageFile);
 							controller.setStage(cropStage);
-							cropStage.setWidth(700);
-							cropStage.setHeight(800);
-							cropStage.setResizable(false);
 							loader.setController(controller);
 							
 							try {
 								Parent root = (Parent) loader.load();
 								Scene scene = new Scene(root);
 								cropStage.setScene(scene);
+								// getStage().hide();
+								// cropStage.show();
 
 							} catch (IOException e) {
 								// TODO Auto-generated catch block

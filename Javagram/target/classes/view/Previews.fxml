@@ -1,25 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2">
+<AnchorPane prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
   <!-- TODO Add Nodes -->
   <children>
-    <BorderPane prefHeight="800.0" prefWidth="700.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-      <bottom>
-        <ScrollPane hbarPolicy="AS_NEEDED" prefHeight="150.0" prefWidth="768.0" vbarPolicy="NEVER">
+    <BorderPane fx:id="borderPanePreview" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      
+       <bottom>
+        <ScrollPane fx:id="scrollPanePreviews" fitToHeight="true" fitToWidth="true" prefHeight="100.0" prefWidth="620.0" vbarPolicy="NEVER">
           <content>
-            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <Button layoutX="87.0" layoutY="84.0" mnemonicParsing="false" text="Button" />
+                     </children></AnchorPane>
           </content>
         </ScrollPane>
       </bottom>
-      <top>
-        <ImageView fx:id="imageViewLarge" fitHeight="700.0" fitWidth="700.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="TOP_CENTER" />
-      </top>
+         <center>
+        <ImageView fx:id="imageViewLarge" fitHeight="700.0" fitWidth="700.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" />
+         </center>
+         <top>
+            <VBox BorderPane.alignment="CENTER">
+               <children>
+                  <HBox>
+                     <children>
+                        <Button mnemonicParsing="false" text="Back">
+                           <HBox.margin>
+                              <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button mnemonicParsing="false" text="Home">
+                           <HBox.margin>
+                              <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Region HBox.hgrow="ALWAYS" />
+                        <Button mnemonicParsing="false" onAction="#saveAction" text="Save">
+                           <HBox.margin>
+                              <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </top>
+      
     </BorderPane>
   </children>
 </AnchorPane>

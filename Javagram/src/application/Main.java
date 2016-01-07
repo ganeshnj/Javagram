@@ -19,8 +19,8 @@ public class Main extends Application {
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.setWidth(1024);
-			primaryStage.setHeight(800);
-			primaryStage.setResizable(false);
+			primaryStage.setHeight(768);
+			// primaryStage.setResizable(false);
 			primaryStage.show();
 			
 			ExplorerController controller = loader.getController();

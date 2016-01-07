@@ -6,10 +6,10 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="anchorPaneCrop" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2">
+<AnchorPane fx:id="anchorPaneCrop" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
   <!-- TODO Add Nodes -->
   <children>
-    <BorderPane fx:id="borderPaneCrop" prefHeight="494.0" prefWidth="527.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+    <BorderPane fx:id="borderPaneCrop" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <top>
         <VBox>
           <children>
@@ -21,7 +21,7 @@
                   </HBox.margin>
                 </Button>
                 <Region HBox.hgrow="ALWAYS" />
-                <Button mnemonicParsing="false" onAction="#nextAction" text="Next" HBox.margin="$x1" />
+                <Button mnemonicParsing="false" onAction="#nextAction" text="Next" HBox.margin="$x1"></Button>
               </children>
             </HBox>
           </children>
