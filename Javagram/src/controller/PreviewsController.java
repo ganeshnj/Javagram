@@ -18,8 +18,13 @@ import com.jhlabs.image.TritoneFilter;
 import com.jhlabs.image.VariableBlurFilter;
 import com.jhlabs.image.WeaveFilter;
 
+import javafx.beans.property.ReadOnlyBooleanProperty;
+import javafx.beans.property.ReadOnlyDoubleProperty;
+import javafx.beans.property.ReadOnlyObjectProperty;
+import javafx.beans.property.ReadOnlyStringProperty;
 import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
+import javafx.concurrent.Worker.State;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -33,6 +38,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 import model.CustomImageView;
 import model.Filter;
@@ -58,7 +64,7 @@ public class PreviewsController {
     	   	
     	  FileChooser fileChooser = new FileChooser();
           fileChooser.setTitle("Save Image");
-          
+          fileChooser.setInitialFileName("untitled.jpg");
           File file = fileChooser.showSaveDialog(stage);
           if (file != null) {
     	  try {
@@ -213,11 +219,25 @@ public class PreviewsController {
 
 	public void changePreview(BufferedImage src, Filter filter) {
 
-		CustomImageView previewLarge = createCustomFilteredView(src, filter);
-		// previewLarge.fitWidthProperty().bind(borderPanePreview.getWidth());
-
-		// previewLarge.s(borderPanePreview.getWidth());
-		imageViewLarge.setImage(previewLarge.getImage());;
+		final Task<CustomImageView> taskPreview = new Task<CustomImageView>() {
+			@Override
+			protected CustomImageView call() throws Exception {
+				// TODO Auto-generated method stub
+				CustomImageView previewLarge = createCustomFilteredView(src, filter);
+				return previewLarge;
+			}
+		};
+		
+		taskPreview.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+			
+			@Override
+			public void handle(WorkerStateEvent event) {
+				// TODO Auto-generated method stub
+				imageViewLarge.setImage(taskPreview.getValue().getImage());
+			}
+		});
+		
+		new Thread(taskPreview).start();
 	}
 
 	public static BufferedImage getFilteredImage(BufferedImage src, Filter type) {

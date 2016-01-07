@@ -9,27 +9,37 @@ import java.util.ResourceBundle;
 
 import javax.imageio.ImageIO;
 
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Bounds;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeLineCap;
+import javafx.scene.transform.Scale;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -114,12 +124,18 @@ public class CropController {
 			imageView = new ImageView(new Image(sourceFile.toURI().toString()));
 			imageLayer.getChildren().add(getImageView());
 
-			ScrollPane scrollPane = new ScrollPane();
+			//ScrollPane scrollPane = new ScrollPane();
 			// use scrollpane for image view in case the image is large
-			scrollPane.setContent(imageLayer);
+			//scrollPane.setContent(imageLayer);
+			
+			 Slider slider = new Slider(0.1,2,1);
+			 slider.setPadding(new Insets(16));
+		     ZoomingPane zoomingPane = new ZoomingPane(imageLayer);
+		     zoomingPane.zoomFactorProperty().bind(slider.valueProperty());
 
 			// put scrollpane in scene
-			borderPaneCrop.setCenter(scrollPane);
+			borderPaneCrop.setCenter(zoomingPane);
+			borderPaneCrop.setBottom(slider);
 
 			rubberBandSelection = new RubberBandSelection(imageLayer);
 		} catch (IOException e) {
@@ -330,5 +346,53 @@ public class CropController {
 
 		}
 	}
+	
+	   private class ZoomingPane extends Pane {
+	        Node content;
+	        private DoubleProperty zoomFactor = new SimpleDoubleProperty(1);
+
+	        private ZoomingPane(Node content) {
+	            this.content = content;
+	            getChildren().add(content);
+	            Scale scale = new Scale(1, 1);
+	            content.getTransforms().add(scale);
+
+	            zoomFactor.addListener(new ChangeListener<Number>() {
+	                public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+	                    scale.setX(newValue.doubleValue());
+	                    scale.setY(newValue.doubleValue());
+	                    requestLayout();
+	                }
+	            });
+	        }
+
+	        protected void layoutChildren() {
+	            Pos pos = Pos.TOP_LEFT;
+	            double width = getWidth();
+	            double height = getHeight();
+	            double top = getInsets().getTop();
+	            double right = getInsets().getRight();
+	            double left = getInsets().getLeft();
+	            double bottom = getInsets().getBottom();
+	            double contentWidth = (width - left - right)/zoomFactor.get();
+	            double contentHeight = (height - top - bottom)/zoomFactor.get();
+	            layoutInArea(content, left, top,
+	                    contentWidth, contentHeight,
+	                    0, null,
+	                    pos.getHpos(),
+	                    pos.getVpos());
+	        }
+
+	        public final Double getZoomFactor() {
+	            return zoomFactor.get();
+	        }
+	        public final void setZoomFactor(Double zoomFactor) {
+	            this.zoomFactor.set(zoomFactor);
+	        }
+	        public final DoubleProperty zoomFactorProperty() {
+	            return zoomFactor;
+	        }
+	    }
+
 
 }
