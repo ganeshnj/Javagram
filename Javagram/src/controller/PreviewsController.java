@@ -55,17 +55,19 @@ public class PreviewsController {
 	
     @FXML
     void saveAction(ActionEvent event) {
+    	   	
     	  FileChooser fileChooser = new FileChooser();
           fileChooser.setTitle("Save Image");
           
           File file = fileChooser.showSaveDialog(stage);
           if (file != null) {
-              try {
-                  ImageIO.write(SwingFXUtils.fromFXImage(imageViewLarge.getImage(),
-                      null), "jpg", file);
-              } catch (IOException ex) {
-                  System.out.println(ex.getMessage());
-              }
+    	  try {
+              ImageIO.write(SwingFXUtils.fromFXImage(imageViewLarge.getImage(), null), "png", file);
+          } catch (IOException e) {
+              // TODO Auto-generated catch block
+              e.printStackTrace();
+          }
+
           }
 
     }

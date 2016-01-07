@@ -70,12 +70,9 @@ public class CropController {
 			// No selection performed
 			System.out.println("Original");
 			
-			File file = new File("temp.jpg");
-			  try {
-	              ImageIO.write(sourceImage, "jpg", file);
-	          } catch (IOException ex) {
-	              System.out.println(ex.getMessage());
-	          }
+			
+			  tempImage= sourceImage;
+			  
 		} else {
 			// Selected performed
 			tempImage = crop(selectionBounds);
@@ -106,7 +103,13 @@ public class CropController {
 
 		try {
 			// throws exception if file not found
-			sourceImage = ImageIO.read(sourceFile);
+			BufferedImage in = ImageIO.read(sourceFile);
+			
+			sourceImage = new BufferedImage(in.getWidth(), in.getHeight(), BufferedImage.TYPE_INT_RGB);
+
+			Graphics2D g = sourceImage.createGraphics();
+			g.drawImage(in, 0, 0, in.getWidth(), in.getHeight(), null);
+			g.dispose();
 
 			imageView = new ImageView(new Image(sourceFile.toURI().toString()));
 			imageLayer.getChildren().add(getImageView());
