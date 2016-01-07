@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="controller.ExplorerController">
+  <!-- TODO Add Nodes -->
+  <children>
+    <BorderPane fx:id="rootBorderPane" layoutX="0.0" layoutY="0.0" prefHeight="700.0" prefWidth="1024.0">
+      <center>
+        <ScrollPane fx:id="scrollPaneFiles" prefHeight="200.0" prefWidth="200.0">
+          <content>
+            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+          </content>
+        </ScrollPane>
+      </center>
+      <top>
+        <VBox>
+          <children>
+            <MenuBar>
+              <menus>
+                <Menu mnemonicParsing="false" text="File">
+                  <items>
+                    <MenuItem mnemonicParsing="false" onAction="#addFolderClick" text="Add a folder" />
+                    <MenuItem mnemonicParsing="false" text="Close" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Edit">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="Delete" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Help">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="About" />
+                  </items>
+                </Menu>
+              </menus>
+            </MenuBar>
+          </children>
+        </VBox>
+      </top>
+    </BorderPane>
+  </children>
+</AnchorPane>
