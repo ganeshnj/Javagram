@@ -2,23 +2,24 @@
 
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="372.0" prefWidth="620.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="controller.PreviewController">
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2">
   <!-- TODO Add Nodes -->
   <children>
-    <BorderPane fx:id="borderPanePreview" prefHeight="372.0" prefWidth="620.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+    <BorderPane prefHeight="800.0" prefWidth="700.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <bottom>
-        <ScrollPane fx:id="scrollPanePreviews" vbarPolicy="NEVER" fitToHeight="true" fitToWidth="true" prefHeight="151.0" prefWidth="620.0">
+        <ScrollPane hbarPolicy="AS_NEEDED" prefHeight="150.0" prefWidth="768.0" vbarPolicy="NEVER">
           <content>
             <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
           </content>
         </ScrollPane>
       </bottom>
-      <center>
-        <Label text="Previews" />
-      </center>
+      <top>
+        <ImageView fx:id="imageViewLarge" fitHeight="700.0" fitWidth="700.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="TOP_CENTER" />
+      </top>
     </BorderPane>
   </children>
 </AnchorPane>
